@@ -1,0 +1,436 @@
+openapi: 3.0.1
+info:
+  title: Operation Administration API
+  description: API for the Operation Administration Challenge
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:3001/'
+    description: version 1
+paths:
+  /authentication/login:
+    post:
+      tags:
+        - Authentication
+      description: Login a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+            example:
+              email: ccazarez@arkusnexus.com
+              password: 123456ABC
+      responses:
+        '200':
+          description: Successful login
+          headers:
+            Set-Cookie:
+              description: Contains a refreshToken Cookie
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/user'
+                  token:
+                    type: string
+  /users:
+    get:
+      tags:
+        - Users
+      description: Returns a list of users
+      security:
+        - bearerAuth: []
+        - refreshCookieScheme: []
+      responses:
+        '200':
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/user'
+  
+  /users/{userId}:
+    get:
+      tags:
+        - Users
+      description: retrieves a single user information
+      operationId: getUserById
+      security:
+        - bearerAuth: []
+        - refreshCookieScheme: []
+      parameters:
+        - in: 'path'
+          name: userId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A user information
+          content:
+            application/content:
+              schema:
+                $ref: '#/components/schemas/user'
+      
+    put:
+      tags:
+        - Users
+      description: Updates a user informacion
+      operationId: UpdateUser
+      security:
+        - bearerAuth: []
+        - refreshCookieScheme: []
+      parameters:
+        - in: 'path'
+          name: 'userId'
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user'
+            example:
+              user:
+                name: test user
+                email: testmail@mail.com
+                password: testpassword
+                curriculum: www.micurriculum.url
+                englishLevel: medium
+                knowledge: 'REACTJS, TYPESCRYPT, NODEJS'
+                role: user
+                profile: Web developer
+      responses:
+        '200':
+          description: User successfully updated
+  
+    delete:
+      tags:
+         - Users
+      description: Deletes a user
+      operationId: deleteUserById
+      security:
+        - bearerAuth: []
+        - cookierefreshScheme: []
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Deletes a user informatio by it's id
+          
+  /users/create:
+    post:
+      tags:
+        - Users
+      description: Create a user
+      operationId: createUser
+      security:
+        - bearerAuth: []
+        - refreshCookieScheme: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user'
+            example:
+              user:
+                name: test user
+                email: testmail@mail.com
+                password: testpassword
+                curriculum: www.micurriculum.url
+                englishLevel: medium
+                knowledge: 'REACTJS, TYPESCRYPT, NODEJS'
+                role: user
+                profile: Web developer
+      responses:
+        '200':
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+
+  /accounts:
+    get:
+      tags:
+        - Accounts
+      description: Get a list of Accounts
+      operationId: getAccounts
+      security:
+        - bearerAuth: []
+        - refreshCookieScheme: []
+      responses:
+        '200':
+          description: Returns a list of accounts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/account'
+    post:
+      tags:
+        - Accounts
+      dscription: Creates a new Account
+      operationId: createAccount
+      security:
+        - bearerAuth: []
+        - refreshCookiescheme: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account'
+            example:
+              name: <account name>
+              userId: <user id>
+              client: <client name> 
+      responses:
+        '200':
+          description: Account created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
+  
+  /accounts/{accountId}:                
+    put:
+      tags:
+        - Accounts
+      description: Updates an account information
+      operationId: UpdateAccount
+      security:
+        - bearerAuth: []
+        - refreshCookieScheme: []
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account'
+            example:
+              userId: id of the user
+              client: client name
+              equipmentId: team's id
+      responses:
+        '200':
+          description: Account information updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
+    delete:
+      tags:
+        - Accounts
+      description: Deletes an account by Id
+      operationId: deleteAccountById
+      security:
+        - bearerAuth: []
+        - refreshCookieScheme: []
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Account deleted
+
+  /team-movements/{teamId}:
+    get:
+      tags:
+        - Movements
+      description: Get team movements
+      operationId: getTeamMovementsById
+      security: 
+        - bearerAuth: []
+        - refeshCookieScheme: []
+      parameters: 
+        - in: path
+          name: teamId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a list of movements of the team
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/movement'
+    
+
+  /team-movements/add-user:
+    post:
+      tags:
+        - Movements
+      description: Adds a user to the team
+      security:
+        - bearerAuth: []
+        - refreshCookieScheme: []
+      requestBody:
+        content:
+          application/json: 
+            schema:
+              $ref: '#/components/schemas/movement'
+            example:
+              accountId: <an account Id>
+              userId: <id of the user to add>
+              startDate: <start date>
+              enddate: <end date>
+      responses:
+        '200':
+          description: User added to the team movements
+  
+  /team-movements/remove-user/{movementId}:
+    delete:
+      tags:
+        - Movements
+      security:
+        - bearerAuth: []
+        - refreshCookieScheme: []
+      parameters:
+        - in: path
+          name: movementId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'User removed from team'
+
+  /team-movements/update-date/{teamId}:
+    put:
+      tags:
+        - Movements
+      description: Updates Movement (Start|End) Date
+      security:
+        - bearerAuth: []
+        - refreshCookieScheme: []
+      parameters:
+        - in: path
+          name: teamId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateMovementDate'
+            example:
+              date: <2021-03-30T01:33:00.000Z>
+              dateType: <start | end>
+              userId: <user Id to update date>  
+      responses:
+        '200':
+          description: Date successfully upadted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: ok
+                
+
+components:
+  schemas:
+    user:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        curriculum:
+          type: string
+        englishLevel:
+          type: string
+        knowledge:
+          type: string
+        role:
+          type: string
+        profile:
+          type: string
+    account:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        userId:
+          type: string
+        client:
+          type: string
+    movement:
+      type: object
+      properties:
+        _id:
+          type: string
+        accountId:
+          type: string
+        userId:
+          type: string
+        startDate:
+          type: string
+        endDate:
+          type: string
+        active:
+          type: string
+    updateMovementDate:
+      type: object
+      properties:
+        date: 
+          type: string
+        dateType: 
+          type: string
+        userId:
+          type: string
+
+    
+  securitySchemes:
+    bearerAuth:
+      type: http
+      description: Enter JWT Bearer token **_only_**
+      scheme: bearer
+      bearerFormat: Bearer
+    refreshCookieScheme:
+      type: apiKey
+      in: cookie
+      name: refreshToken
+
+security:
+  - bearerAuth: []
