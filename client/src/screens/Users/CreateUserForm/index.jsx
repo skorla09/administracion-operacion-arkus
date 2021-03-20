@@ -6,7 +6,14 @@ import { useFormik } from 'formik'
 import Modal from '../../../components/Modal'
 import { StyledForm, ActionsRow } from './styledComponent'
 
-const UserModalForm = ({ open, user, loading, onCloseModal = () => { }, onAccept = () => { } }) => {
+const UserModalForm = ({
+  open,
+  user,
+  loading,
+  onCloseModal = () => { },
+  onAccept = () => { },
+  isEditing = false
+}) => {
 
   const validate = values => {
     const errorMessage = 'Requerido'
@@ -69,8 +76,9 @@ const UserModalForm = ({ open, user, loading, onCloseModal = () => { }, onAccept
     onCloseModal()
   }
 
+  const modalTitle = isEditing ? 'Editar Usuario' : 'Crear Usuario'
   return (
-    <Modal title="Crear Usuario" open={open} withCustomActions>
+    <Modal title={modalTitle} open={open} withCustomActions>
       <StyledForm onSubmit={formik.handleSubmit}>
         <TextField
           fullWidth

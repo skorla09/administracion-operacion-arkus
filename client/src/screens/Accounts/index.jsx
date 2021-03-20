@@ -121,7 +121,14 @@ const Accounts = () => {
         <Button variant="outlined" color="primary" onClick={handleOpenModal('')}>Crear Cuenta</Button>
       </CreateUserRow>
       <CustomTable headers={tableHeaderTitles} tableContent={tableContent} />
-      <CreateAccountFormModal open={addAccountModalVisible} onAccept={handleCreateAccount} onCloseModal={handleCloseModal} account={getAccountInfo(selectedAccountId)} loading={loading} />
+      <CreateAccountFormModal
+        open={addAccountModalVisible}
+        isEditing={!!selectedAccountId}
+        onAccept={handleCreateAccount}
+        onCloseModal={handleCloseModal}
+        account={getAccountInfo(selectedAccountId)}
+        loading={loading}
+      />
       < Modal title="Delete Account" open={deleteAccountModalVisible} onCancel={handleCloseDeleteModal} onAccept={handleDeleteAccount}>
         <Typography variant="body1">Esta seguro de quere eliminar esta cuenta?</Typography>
       </Modal>

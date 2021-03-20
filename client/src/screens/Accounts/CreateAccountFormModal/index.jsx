@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react'
+import includes from 'lodash/includes'
 import TextField from '@material-ui/core/TextField'
 import Select from '@material-ui/core/Select'
 import InputLabel from '@material-ui/core/InputLabel'
@@ -17,6 +18,7 @@ const AccountModalForm = (
     open,
     account,
     loading,
+    isEditing = false,
     onCloseModal = () => { },
     onAccept = () => { }
   }
@@ -74,8 +76,9 @@ const AccountModalForm = (
 
   useEffect(() => fetchUsers(), [])
 
+  const modalTitle = isEditing ? 'Editar' : 'Crear'
   return (
-    <Modal title="Crear Usuario" open={open} withCustomActions>
+    <Modal title={`${modalTitle} Cuenta`} open={open} withCustomActions>
       <StyledForm onSubmit={formik.handleSubmit}>
         <TextField
           fullWidth

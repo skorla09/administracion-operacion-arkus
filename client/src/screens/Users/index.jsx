@@ -118,7 +118,14 @@ const Users = () => {
         <Button variant="outlined" color="primary" onClick={handleOpenModal('')}>Crear Usuario</Button>
       </CreateUserRow>
       <CustomTable headers={tableHeaderTitles} tableContent={tableContent} />
-      <CreateUserModalForm open={addUserModalVisible} onAccept={handleCreateUser} onCloseModal={handleCloseModal} user={getUserInfo(selectedUserId)} loading={loading} />
+      <CreateUserModalForm
+        open={addUserModalVisible}
+        onAccept={handleCreateUser}
+        onCloseModal={handleCloseModal}
+        user={getUserInfo(selectedUserId)}
+        loading={loading}
+        isEditing={selectedUserId}
+      />
       < Modal title="Delete User" open={deleteUsrModalVisible} onCancel={handleCloseDeleteModal} onAccept={handleDeleteUSer}>
         <Typography variant="body1">Are you sure you want to delete this user?</Typography>
       </Modal>
