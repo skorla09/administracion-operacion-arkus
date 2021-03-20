@@ -129,7 +129,7 @@ const Accounts = () => {
         account={getAccountInfo(selectedAccountId)}
         loading={loading}
       />
-      < Modal title="Delete Account" open={deleteAccountModalVisible} onCancel={handleCloseDeleteModal} onAccept={handleDeleteAccount}>
+      < Modal title="Eliminar Cuenta" open={deleteAccountModalVisible} onCancel={handleCloseDeleteModal} onAccept={handleDeleteAccount}>
         <Typography variant="body1">Esta seguro de quere eliminar esta cuenta?</Typography>
       </Modal>
     </MainLayout>

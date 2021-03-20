@@ -149,15 +149,15 @@ const TeamControl = () => {
         <Typography color="primary" variant="h4">{get(location, 'state.teamName')}</Typography>
       </TitleRow>
       <CreateUserRow>
-        <Button variant="outlined" color="primary" onClick={handleOpenModal}>Agregar usuario</Button>
+        <Button variant="outlined" color="primary" onClick={handleOpenModal}>Agregar Integrante</Button>
       </CreateUserRow>
 
       <Typography variant="h5" color="primary">Miembros del equipo</Typography>
       <CustomTable headers={tableHeaderTitles} tableContent={tableContent} />
       <AddUserModal open={teamMatesModalVisible} onClose={handleCloseModal} onAccept={handleAddTeamMember}></AddUserModal>
 
-      < Modal title="Remove Team Member" open={removeMemberModalVisible} onCancel={handleCloseDeleteModal} onAccept={handleRemoveMember}>
-        <Typography variant="body1">¿Remover usuario del equipo?</Typography>
+      < Modal title="Remover Integrante del equipo" open={removeMemberModalVisible} onCancel={handleCloseDeleteModal} onAccept={handleRemoveMember}>
+        <Typography variant="body1">¿Remover integrante del equipo?</Typography>
       </Modal>
     </MainLayout>
   )

@@ -36,7 +36,6 @@ const Users = () => {
       const response = await getUsers()
       setState(state => ({ ...state, users: response.data, deleteUsrModalVisible: false }))
     } catch (error) {
-      console.log(error)
       showErrorMessage(error.data.message)
     }
   }
@@ -126,8 +125,8 @@ const Users = () => {
         loading={loading}
         isEditing={selectedUserId}
       />
-      < Modal title="Delete User" open={deleteUsrModalVisible} onCancel={handleCloseDeleteModal} onAccept={handleDeleteUSer}>
-        <Typography variant="body1">Are you sure you want to delete this user?</Typography>
+      < Modal title="Eliminar Usuario" open={deleteUsrModalVisible} onCancel={handleCloseDeleteModal} onAccept={handleDeleteUSer}>
+        <Typography variant="body1">Esta seguro que desea eliminar este usuario?</Typography>
       </Modal>
     </MainLayout>
   )
